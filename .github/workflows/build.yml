@@ -1,0 +1,26 @@
+name: Build Image
+on: [push]
+
+jobs:
+  build:
+    name: Build Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Sources
+        uses: actions/checkout@dfd70d4a2dece5f4a1af8dc99e1508a16e916b60
+        with:
+          lfs: true
+      - name: Determine tag
+        shell: bash
+        run: |
+          VERSION=$(grep 'ARG source_version=' Dockerfile | sed 's/ARG source_version=//')
+          echo "::set-env name=VERSION::${VERSION}"
+      - name: Build Image
+        uses: jen20/action-docker-build@9c9568f1a202682414e3fd14c67e9c07dc548886
+        with:
+          repository: docker.pkg.github.com/eventstore/eventstore-client-grpc-testdata/eventstore-client-grpc-testdata
+          tag-latest: false
+          additional-tags: ${{ env.VERSION }}
+          registry: https://docker.pkg.github.com
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
