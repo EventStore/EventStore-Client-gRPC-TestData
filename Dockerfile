@@ -1,4 +1,4 @@
-ARG source_version=6.0.0-preview1.0.1869-buster-slim
+ARG source_version=6.0.0-preview1.0.1884-buster-slim
 
 FROM docker.pkg.github.com/eventstore/eventstore/eventstore:$source_version
 USER root
