@@ -1,4 +1,4 @@
-ARG source_version=20.6.0-rc.36-buster-slim
+ARG source_version=20.6.0-buster-slim
 
 FROM docker.pkg.github.com/eventstore/eventstore/eventstore:$source_version
 USER root
