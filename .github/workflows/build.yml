@@ -14,7 +14,7 @@ jobs:
         shell: bash
         run: |
           VERSION=$(grep 'ARG source_version=' Dockerfile | sed 's/ARG source_version=//')
-          echo "::set-env name=VERSION::${VERSION}"
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
       - name: Build Image
         uses: jen20/action-docker-build@9c9568f1a202682414e3fd14c67e9c07dc548886
         with:
