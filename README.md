@@ -6,7 +6,7 @@ The container is built automatically based on the version specified in the `Dock
 
 ## Usage
 
-The data set is located in `/data/integration-tests` in the image. Consequently, the same image can be used to provision either a new, blank, ephemeral database, or to start with the known data set.
+The data set is located in `/var/lib/eventstore` in the image. Consequently, the same image can be used to provision either a new, blank, ephemeral database, or to start with the known data set.
 
 For example, the following Docker Compose file is used for `EventStore-Client-Java` to start with the known data set:
 
@@ -15,7 +15,7 @@ version: '3'
 
 services:
   eventstore:
-    image: docker.pkg.github.com/eventstore/eventstore-client-grpc-testdata/eventstore-client-grpc-testdata:6.0.0-preview1.0.1869-buster-slim
+    image: ghcr.io/eventstore/testdata:ci
     ports:
       - 1113:1113/tcp
       - 1114:1114/tcp
@@ -35,4 +35,4 @@ services:
 
 ## Rebuilding
 
-The Event Store Server image from which this test image is constructed has a source version specified in the `Dockerfile`, which should be modified when a new build is needed. The image is built and pushed by GitHub Actions.
+The Event Store Server image from which this test image is constructed has a source version specified in the `Dockerfile`, which should be modified when a new build is needed. To publish with GitHub actions, [run the action manually](https://github.com/EventStore/EventStore-Client-gRPC-TestData/actions/workflows/build.yml) and specify the base tag, e.g., `ci` or `21.10.0-buster-slim`.

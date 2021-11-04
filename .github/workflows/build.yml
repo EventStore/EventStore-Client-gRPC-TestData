@@ -11,6 +11,12 @@ jobs:
     name: Build Image
     runs-on: ubuntu-latest
     steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -20,6 +26,11 @@ jobs:
         with:
           context: .
           load: true
-          tags: testcontainer
+          tags: testdata
           build-args: |
-            source_version=${{ github.event.inputs.version }}-buster-slim
+            source_version=${{ github.event.inputs.version }}
+      - name: Publish Image
+        shell: bash
+        run: |
+          docker tag testdata ghcr.io/eventstore/testdata:${{ github.event.inputs.version }}
+          docker push ghcr.io/eventstore/testdata:${{ github.event.inputs.version }}

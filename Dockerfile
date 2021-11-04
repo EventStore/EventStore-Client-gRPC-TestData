@@ -1,8 +1,9 @@
-ARG source_version=21.6.0-buster-slim
+ARG source_version=21.10.0-buster-slim
 
-FROM docker.pkg.github.com/eventstore/eventstore/eventstore:$source_version
+FROM ghcr.io/eventstore/eventstore:$source_version
 USER root
-RUN mkdir -p /data/integration-tests
-COPY dataset20MB/* /data/integration-tests/
-RUN chown -R eventstore:eventstore /data/integration-tests
+RUN mkdir /data && \
+    chown eventstore:eventstore /data 
 USER eventstore
+RUN ln -s /var/lib/eventstore /data/integration-tests
+COPY --chown=eventstore:eventstore dataset20MB/* /var/lib/eventstore/
